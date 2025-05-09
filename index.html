@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fluorite Keys</title>
+    <style>
+        body {
+            background: url('bg.jpg');
+            background-size: cover;
+            font-family: Arial;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .box {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🪄 Buy Fluorite IPA Keys</h1>
+
+    <div class="box">
+        <h2>Choose Plan:</h2>
+        <select id="plan">
+            <option value="1-Day ($5)">1-Day - $5</option>
+            <option value="1-Week ($15)">1-Week - $15</option>
+            <option value="1-Month ($25)">1-Month - $25</option>
+        </select>
+    </div>
+
+    <div class="box">
+        <h2>Your Details:</h2>
+        <input type="text" id="telegram" placeholder="Telegram @username">
+        <input type="file" id="screenshot" accept="image/*">
+        <button onclick="sendOrder()">Send Order</button>
+    </div>
+
+    <script>
+    async function sendOrder() {
+        // YOUR SECRET CODES HERE 👇
+        const BOT_TOKEN = '7117008353:AAEhe7nc-BVBNMjX0m2I30InXYdHTtvXUb0';
+        const CHAT_ID = '6287314531';
+
+        const plan = document.getElementById('plan').value;
+        const telegram = document.getElementById('telegram').value;
+        const file = document.getElementById('screenshot').files[0];
+
+        // 1. Send text message
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=📦 NEW ORDER!%0APlan: ${plan}%0ATelegram: @${telegram}`);
+
+        // 2. Send screenshot
+        const formData = new FormData();
+        formData.append('photo', file);
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto?chat_id=${CHAT_ID}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        alert('Order sent! Check Telegram ✅');
+    }
+    </script>
+</body>
+</html>
